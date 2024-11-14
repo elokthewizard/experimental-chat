@@ -1,0 +1,13 @@
+- [] Player Character
+    - [] Movement
+        - [X] Point and Click controls 
+        - [] Face destination
+    - [] Presentation
+        - [] Spritesheet
+        - [] Face mouse when stationary
+- [] Chat system
+    - [] UI
+    - [] Chat bubbles above player heads
+    - [] Emoji picker
+    - [] Emotes/ Dance moves
+    
