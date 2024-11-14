@@ -1,0 +1,4 @@
+#gameCanvas {
+    border-radius: 12px;
+    box-shadow: inset 8px 8px 12px rgba(0, 0, 0, 0.5);
+}

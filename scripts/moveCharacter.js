@@ -1,12 +1,26 @@
 const canvas = document.getElementById('gameCanvas');
+canvas.width = 800;
+canvas.height = 600;
+
 const context = canvas.getContext('2d');
+context.imageSmoothingEnabled = false;
+
+// Track mouse posiiton
+let mouseX = 0;
+let mouseY = 0;
+
+canvas.addEventListener('mousemove', (event) => {
+    const rect = canvas.getBoundingClientRect();
+    mouseX = event.clientX - rect.left;
+    mouseY = event.clientY - rect.top;
+});
+
 
 // Load spritesheet (dont forget to attribute AxulArt from itch.io)
 const sprite = new Image();
 sprite.src = '../assets/testPlayerSprites.png';
 
 // Define animation handler
-
 class AnimationState {
     constructor(frameWidth, frameHeight) {
         this.frameX = 0;
@@ -18,6 +32,10 @@ class AnimationState {
 
         // Layout constants
         this.framesPerColumn = 3;
+
+        // Direction state
+        this.lastDirectionX = 0;
+        this.lastDirectionY = 0;
 
         // Direciton raw indices
         this.FACING_N = 0;
@@ -39,12 +57,19 @@ class AnimationState {
             }
         } else {
             // Reset to idle frame when not moving
-            this.frameY = 0;
+            this.frameY = 1;
             this.frameTimer = 0;
         }
     }
 
     setDirection(dx, dy) {
+        if (dx === 0 && dy === 0) {
+            dx = this.lastDirectionX;
+            dy = this.lastDirectionXY;
+        } else {
+            this.lastDirectionX = dx;
+            this.lastDirectionY = dy;
+        }
         const angle = Math.atan2(dy, dx) * (180 / Math.PI); // Calculate angle in degrees
 
         if (angle >= -22.5 && angle < 22.5) {
@@ -112,14 +137,22 @@ class PlayerCharacter {
     constructor() {
         this.x = 100;
         this.y = 100;
-        this.movement = new MovementHandler(5);
+        this.movement = new MovementHandler(2.5);
         this.animation = new AnimationState(16, 16);
-        this.scale = 3;
+        this.scale = 2;
     }
 
     update() {
         const moveState = this.movement.updatePosition(this);
-        this.animation.setDirection(moveState.dx, moveState.dy)
+
+        if (!moveState.moving) {
+            const dx = mouseX - this.x;
+            const dy = mouseY - this.y;
+            this.animation.setDirection(dx, dy)
+        } else {
+            this.animation.setDirection(moveState.dx, moveState.dy)
+        }
+        
         this.animation.updateFrame(moveState.moving);
     }
     
