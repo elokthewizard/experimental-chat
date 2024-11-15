@@ -1,6 +1,6 @@
 const canvas = document.getElementById('gameCanvas');
 canvas.width = 800;
-canvas.height = 600;
+canvas.height = 450;
 
 const context = canvas.getContext('2d');
 context.imageSmoothingEnabled = false;
@@ -11,12 +11,10 @@ sprite.src = '../assets/testPlayerSprites.png';
 
 // Load texture (Attribute Comp-3 Interactive!)
 const background = new Image();
-background.src = '../assets/simplyGrass.png'
-let backgroundPattern = null;
+background.src = '../assets/grassBackground.png'
 
 background.onload = () => {
     console.log("Background image loaded");
-    backgroundPattern = context.createPattern(background, 'repeat');
 }
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -125,7 +123,7 @@ class AnimationState {
 
 // Define movement handler
 class MovementHandler {
-    constructor(speed = 5) {
+    constructor(speed) {
         this.speed = speed; 
         this.targetX = 100; 
         this.targetY = 100; 
@@ -166,10 +164,10 @@ class MovementHandler {
 // Define character properties
 class PlayerCharacter {
     constructor() {
-        this.x = 100;
-        this.y = 100;
+        this.x = 400;
+        this.y = 210;
 
-        this.movement = new MovementHandler(2.5);
+        this.movement = new MovementHandler(1);
         this.animation = new AnimationState(16, 16);
 
         this.scale = 2;
@@ -231,7 +229,7 @@ class PlayerCharacter {
         // Draw messages above the player
         this.messages.forEach((msg, index) => {
             context.font = "16px Arial";
-            context.fillStyle = "black";
+            context.fillStyle = "white";
             context.textAlign = "center";
 
             // Adjust x position to be the player's x position
@@ -267,12 +265,22 @@ function displayMessage(player, message) {
     player.addMessage(message)
 }
 
+function drawBackGround(background) {
+    // Desired dimensions (e.g., half the original size) 
+    const desiredWidth = background.width / 2; 
+    const desiredHeight = background.height / 2;
+
+    // Calculate the position to center the image on the canvas
+    const x = (canvas.width - desiredWidth) / 2; 
+    const y = (canvas.height - desiredHeight) / 2; 
+
+    // Draw the image so it "hangs off" the edges 
+    context.drawImage(background, x, y, desiredWidth, desiredHeight);
+}
+
 function gameLoop() {
     context.clearRect(0, 0, canvas.width, canvas.height);
-    if (backgroundPattern) {
-        context.fillStyle = backgroundPattern;
-        context.fillRect(0, 0, canvas.width, canvas.height)
-    }
+    drawBackGround(background)
     player.update();
     player.draw(context);
     requestAnimationFrame(gameLoop);
