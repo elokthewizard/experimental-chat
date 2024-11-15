@@ -5,6 +5,42 @@ canvas.height = 600;
 const context = canvas.getContext('2d');
 context.imageSmoothingEnabled = false;
 
+// Load spritesheet (dont forget to attribute AxulArt from itch.io)
+const sprite = new Image();
+sprite.src = '../assets/testPlayerSprites.png';
+
+// Load texture (Attribute Comp-3 Interactive!)
+const background = new Image();
+background.src = '../assets/simplyGrass.png'
+let backgroundPattern = null;
+
+background.onload = () => {
+    console.log("Background image loaded");
+    backgroundPattern = context.createPattern(background, 'repeat');
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    const sendButton = document.getElementById('sendButton');
+    const messageInput = document.getElementById('messageInput');
+
+    sendButton.addEventListener('click', () => {
+        const message = messageInput.value.trim();
+        if (message) {
+            displayMessage(player, message);
+            messageInput.value = '';
+        }
+    });
+
+    messageInput.addEventListener('keydown', (event) => {
+        if (event.key === 'Enter') {
+            if (messageInput.value.trim() !== "") {
+                event.preventDefault();
+                sendButton.click();
+            }
+        }
+    });
+})
+
 // Track mouse posiiton
 let mouseX = 0;
 let mouseY = 0;
@@ -14,11 +50,6 @@ canvas.addEventListener('mousemove', (event) => {
     mouseX = event.clientX - rect.left;
     mouseY = event.clientY - rect.top;
 });
-
-
-// Load spritesheet (dont forget to attribute AxulArt from itch.io)
-const sprite = new Image();
-sprite.src = '../assets/testPlayerSprites.png';
 
 // Define animation handler
 class AnimationState {
@@ -137,9 +168,14 @@ class PlayerCharacter {
     constructor() {
         this.x = 100;
         this.y = 100;
+
         this.movement = new MovementHandler(2.5);
         this.animation = new AnimationState(16, 16);
+
         this.scale = 2;
+
+        this.messages = [];
+        this.messageDuration = 10000;
     }
 
     update() {
@@ -154,6 +190,10 @@ class PlayerCharacter {
         }
         
         this.animation.updateFrame(moveState.moving);
+
+        // Remove expired messages
+        const currentTime = Date.now();
+        this.messages = this.messages.filter(msg => currentTime - msg.time < this.messageDuration)
     }
     
     draw(context) {
@@ -168,7 +208,7 @@ class PlayerCharacter {
         const shadowY = this.y + (displayHeight - shadowHeight - 2);
 
         // Draw the shadow as a semi-transparent ellipse
-        context.fillStyle = 'rgba(28, 47, 96, 0.5)'; // Semi-transparent black
+        context.fillStyle = 'rgba(28, 47, 96, 1)'; // Semi-transparent black
         context.beginPath();
         context.ellipse(shadowX + shadowWidth / 2, shadowY, shadowWidth / 2, shadowHeight / 2, 0, 0, Math.PI * 2);
         context.fill();
@@ -187,10 +227,28 @@ class PlayerCharacter {
             displayWidth,
             displayHeight
         );
+
+        // Draw messages above the player
+        this.messages.forEach((msg, index) => {
+            context.font = "16px Arial";
+            context.fillStyle = "black";
+            context.textAlign = "center";
+
+            // Adjust x position to be the player's x position
+            const textX = this.x;
+
+            // Draw text in the correct position
+            context.fillText(msg.text, textX, this.y - 20 - index * 20);
+        });
     }
 
     handleClick(x, y) {
         this.movement.setTarget(x, y);
+    }
+
+    addMessage(message) {
+        const currentTime = Date.now();
+        this.messages.push({ text: message, time: currentTime })
     }
 }
 
@@ -204,8 +262,17 @@ canvas.addEventListener('click', (event) => {
     player.movement.setTarget(player.targetX, player.targetY)
 });
 
+// Message display
+function displayMessage(player, message) {
+    player.addMessage(message)
+}
+
 function gameLoop() {
     context.clearRect(0, 0, canvas.width, canvas.height);
+    if (backgroundPattern) {
+        context.fillStyle = backgroundPattern;
+        context.fillRect(0, 0, canvas.width, canvas.height)
+    }
     player.update();
     player.draw(context);
     requestAnimationFrame(gameLoop);

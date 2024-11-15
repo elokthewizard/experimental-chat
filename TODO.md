@@ -7,14 +7,16 @@
         - [X] Face mouse when stationary
         
 - [] Game World
-    - [] Background
+    - [X] Background
+        - [] Variation/ texture
     - [] Props
         - [] Sprites
         - [] Draw Layers
 
 - [] Chat system
-    - [] UI
-    - [] Chat bubbles above player heads
+    - [X] UI
+    - [X] Chat bubbles above player heads
+    - [X] Message decay
     - [] Emoji picker
     - [] Emotes/ Dance moves
     
