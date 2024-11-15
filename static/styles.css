@@ -3,7 +3,6 @@
     position: relative;
     left: 50%;
     transform: translateX(-50%);
-    box-shadow: inset 8px 8px 12px rgba(0, 0, 0, 0.5);
     z-index: 1;
 }
 
@@ -19,12 +18,23 @@
     z-index: 2;
 }
 
+#chatController * {
+    font-family: 'Press Start 2P', sans-serif;
+    font-size: 10px;
+}
+
 #messageInput {
     border: none;
     padding: 10px;
-    box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.5);
+    margin-right: 8px;
+    box-shadow: 4px 4px 0px rgba(0, 0, 0, 0.8);
     border-radius: 16px;
-    width: 400px;
+    width: 50%;
+}
+
+#messageInput:focus {
+    border-color: inherit;
+    outline: none;
 }
 
 #sendButton {
@@ -33,7 +43,7 @@
     padding-left: 16px;
     padding-right: 16px;
     border-radius: 16px;
-    box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.5);
+    box-shadow: 4px 4px 0px rgba(0, 0, 0, 0.8);
     border-radius: 16px;
     cursor: pointer;
 }
