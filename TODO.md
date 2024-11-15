@@ -1,10 +1,17 @@
-- [] Player Character
-    - [] Movement
+- [X] Player Character
+    - [X] Movement
         - [X] Point and Click controls 
-        - [] Face destination
-    - [] Presentation
-        - [] Spritesheet
-        - [] Face mouse when stationary
+        - [X] Face destination
+    - [X] Presentation
+        - [X] Spritesheet
+        - [X] Face mouse when stationary
+        
+- [] Game World
+    - [] Background
+    - [] Props
+        - [] Sprites
+        - [] Draw Layers
+
 - [] Chat system
     - [] UI
     - [] Chat bubbles above player heads

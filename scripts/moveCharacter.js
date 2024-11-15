@@ -161,6 +161,18 @@ class PlayerCharacter {
         const displayWidth = this.animation.frameWidth * this.scale;
         const displayHeight = this.animation.frameHeight * this.scale;
 
+        // Calculate shadow position and size
+        const shadowWidth = displayWidth * 0.75; // Adjust width of shadow
+        const shadowHeight = displayHeight * 0.2; // Adjust height of shadow
+        const shadowX = this.x - shadowWidth / 5;
+        const shadowY = this.y + (displayHeight - shadowHeight - 2);
+
+        // Draw the shadow as a semi-transparent ellipse
+        context.fillStyle = 'rgba(28, 47, 96, 0.5)'; // Semi-transparent black
+        context.beginPath();
+        context.ellipse(shadowX + shadowWidth / 2, shadowY, shadowWidth / 2, shadowHeight / 2, 0, 0, Math.PI * 2);
+        context.fill();
+
         const xOffset = this.animation.frameX * this.animation.frameWidth
         const yOffset = (this.animation.frameY * (this.animation.frameHeight + 7))
 
