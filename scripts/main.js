@@ -1,16 +1,38 @@
 import { Player } from "./Player.js";
 import { setUpMessageHandler, drawMessages } from "./MessageHandler.js";
 import { createGameWorld, loadTexture, loadSprite, drawBackGround } from "./WorldHandler.js";
+import { playerSprites } from "./Sprites.js";
 
 // Create game world
 const { canvas, context } = createGameWorld();
+let currentSprite = 0;
+
+function loadPlayerSprite(index) {
+    const spritePath = playerSprites[index];
+    return loadSprite(spritePath);
+}
+
+function changeSprite() {
+    currentSprite = (currentSprite + 1) % playerSprites.length;
+    sprite = loadPlayerSprite(currentSprite);
+    sprite.onload = () => {
+        player.sprite = sprite;
+    }
+}
+
+const changeSpriteButton = document.createElement('button');
+changeSpriteButton.innerText = 'Change Sprite';
+changeSpriteButton.onclick = changeSprite;
+document.body.append(changeSpriteButton);
+
+let sprite = loadPlayerSprite(currentSprite);
 
 // Load textures and sprites (Attribute Comp-3 Interactive and AxulArt from itch.io!)
 const background = loadTexture('../assets/grassBackground.png')
-const sprite = loadSprite('../assets/testPlayerSprites.png');
 
 // Initialize player
-const player = new Player(canvas, sprite);
+const player = new Player(canvas);
+player.sprite = sprite;
 
 // Setup message handling
 setUpMessageHandler(player, context);
