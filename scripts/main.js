@@ -3,16 +3,20 @@ import { setUpMessageHandler, drawMessages } from "./MessageHandler.js";
 import { createGameWorld, loadTexture, loadSprite, drawBackGround } from "./WorldHandler.js";
 import { playerSprites } from "./Sprites.js";
 
+console.log("Hello Chat!");
+
 // Create game world
 const { canvas, context } = createGameWorld();
 let currentSprite = 0;
 
 function loadPlayerSprite(index) {
+    console.log("Loading Sprites...");
     const spritePath = playerSprites[index];
     return loadSprite(spritePath);
 }
 
 function changeSprite() {
+    console.log("Changing sprite...")
     currentSprite = (currentSprite + 1) % playerSprites.length;
     sprite = loadPlayerSprite(currentSprite);
     sprite.onload = () => {

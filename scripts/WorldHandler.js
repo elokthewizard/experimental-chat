@@ -10,6 +10,7 @@ export function createGameWorld() {
 }
 
 export function loadTexture(src) {
+    console.log("Loading texture...");
     const image = new Image();
     image.src = src;
     return image;
