@@ -32,7 +32,7 @@ document.body.append(changeSpriteButton);
 let sprite = loadPlayerSprite(currentSprite);
 
 // Load textures and sprites (Attribute Comp-3 Interactive and AxulArt from itch.io!)
-const background = loadTexture('./grassBackground.png')
+const background = loadTexture('../assets/grassBackground.png')
 
 // Initialize player
 const player = new Player(canvas);
