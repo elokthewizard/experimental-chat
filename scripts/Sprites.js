@@ -1,9 +1,9 @@
 export const playerSprites = [
-    './testPlayerSpritesGray.png',
-    './testPlayerSpritesRed.png',
-    './testPlayerSpritesYellow.png',
-    './testPlayerSpritesGreen.png',
-    './testPlayerSpritesBlue.png',
-    './testPlayerSpritesPurple.png',
-    './testPlayerSpritesPink.png'
+    '../assets/testPlayerSpritesGray.png',
+    '../assets/testPlayerSpritesRed.png',
+    '../assets/testPlayerSpritesYellow.png',
+    '../assets/testPlayerSpritesGreen.png',
+    '../assets/testPlayerSpritesBlue.png',
+    '../assets/testPlayerSpritesPurple.png',
+    '../assets/testPlayerSpritesPink.png'
 ]
